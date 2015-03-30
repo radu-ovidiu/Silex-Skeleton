@@ -4,12 +4,13 @@
         "twig/twig": "1.16.3",
         "symfony/config": "2.6.5",
         "symfony/templating": "2.6.5",
-        "symfony/web-profiler-bundle": "2.6.5",
+        "symfony/yaml": "2.6.5",
         "symfony/stopwatch": "2.6.5",
+        "symfony/web-profiler-bundle": "2.6.5",
+        "silex/web-profiler": "1.0.5"
         "symfony/filesystem": "2.6.5",
         "symfony/finder": "2.6.5",
         "symfony/translation": "2.6.5",
-        "silex/web-profiler": "1.0.5",
-        "symfony/yaml": "2.6.5"
+        "symfony/monolog-bundle": "2.6.1"
     }
 }

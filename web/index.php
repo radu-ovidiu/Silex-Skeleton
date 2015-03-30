@@ -51,8 +51,8 @@ $app->register(new \Silex\Provider\HttpFragmentServiceProvider());
 if(SMART_APP_DEBUG === true) {
 	$app->register(new \Silex\Provider\WebProfilerServiceProvider(), array(
 		'profiler.cache_dir' => __DIR__.'/../cache/profiler',
-		'web_profiler.debug_toolbar.enable' => true,
-		'web_profiler.debug_toolbar.intercept_redirects' => false
+		//'web_profiler.debug_toolbar.enable' => true,
+		//'web_profiler.debug_toolbar.intercept_redirects' => false
 	));
 } //end if
 
