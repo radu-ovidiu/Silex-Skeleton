@@ -14,7 +14,7 @@ if(SMART_APP_DEBUG === true) {
 } else {
 	ini_set('display_errors', '0');	// hide runtime errors
 } //end if else
-ini_set('error_log', __DIR__.'/../cache/phperrors.log'); // record them to a log
+ini_set('error_log', __DIR__.'/../tmp/phperrors.log'); // record them to a log
 //--
 
 //--
@@ -48,12 +48,12 @@ $app->register(new \Silex\Provider\HttpFragmentServiceProvider());
 if(SMART_APP_DEBUG === true) {
 	$app->register(new \Silex\Provider\MonologServiceProvider(), array(
 		'monolog.level' => \Monolog\Logger::DEBUG,
-		'monolog.logfile' => __DIR__.'/../cache/monolog-dev.log',
+		'monolog.logfile' => __DIR__.'/../tmp/monolog-dev.log',
 	));
 } else {
 	$app->register(new \Silex\Provider\MonologServiceProvider(), array(
 		'monolog.level' => \Monolog\Logger::WARNING,
-		'monolog.logfile' => __DIR__.'/../cache/monolog-prod.log',
+		'monolog.logfile' => __DIR__.'/../tmp/monolog-prod.log',
 	));
 } //end if else
 //--
@@ -66,7 +66,7 @@ if(SMART_APP_DEBUG === true) {
 } else {
 	$app->register(new \Silex\Provider\TwigServiceProvider(), array(
 		'twig.path' => __DIR__.'/../templates',
-		'twig.options' => array('cache' => __DIR__.'/../cache/twig'),
+		'twig.options' => array('cache' => __DIR__.'/../tmp/twig'),
 	));
 } //end if else
 //-- Twig Asset
@@ -81,7 +81,7 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
 //-- Web Profiler
 if(SMART_APP_DEBUG === true) {
 	$app->register(new \Silex\Provider\WebProfilerServiceProvider(), array(
-		'profiler.cache_dir' => __DIR__.'/../cache/profiler',
+		'profiler.cache_dir' => __DIR__.'/../tmp/profiler',
 		'web_profiler.debug_toolbar.enable' => true,
 		'web_profiler.debug_toolbar.intercept_redirects' => false
 	));
