@@ -5,9 +5,37 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Benchmark</title>
+<script type="text/javascript" src="{{asset('')}}js/jquery.min.js"></script>
 </head>
 <body>
-<!-- views/template/benchmark/ -->
+<!-- {{asset('')}} -->
 <h1>Benchmark Test</h1>
+<script type="text/javascript">
+$.ajaxSetup({
+	async: true, cache: false, timeout: 0,
+//	headers: {"X-Requested-With":"XMLHttpRequest"}
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	$.ajax({
+		async: true,
+		cache: false,
+		timeout: 0,
+		type: 'GET',
+		url: '{{asset('')}}js/test.json',
+		//--
+		data: '',
+		dataType: 'json',
+		//--
+		success: function(msg) {
+			//alert('JSON page Test OK !');
+		},
+		error: function(msg) {
+			alert('JSON page Test Failed !');
+		}
+	});
+});
+</script>
 </body>
 </html>
