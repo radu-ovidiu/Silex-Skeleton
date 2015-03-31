@@ -1,11 +1,9 @@
 <?php
 
-//--
-define('SMART_APP_DEBUG', true);
-//--
+//==
+require(__DIR__.'/../config/config.php');
+//==
 
-//--
-date_default_timezone_set('UTC');
 //--
 ini_set('default_charset', 'UTF-8');
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
@@ -85,6 +83,21 @@ if(SMART_APP_DEBUG === true) {
 		'web_profiler.debug_toolbar.enable' => true,
 		'web_profiler.debug_toolbar.intercept_redirects' => false
 	));
+} //end if
+//--
+
+//-- Doctrine DBAL
+$app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
+	'dbs.options' => $configs['dbs.options']
+));
+//--
+//$sql = "SELECT * FROM posts WHERE id = ?";
+//$post = $app['dbs']['sqlite']->fetchAssoc($sql, array(1));
+if(!is_file(__DIR__.'/../tmp/db.sqlite')) {
+	$app['dbs']['sqlite']->executeQuery(
+		'CREATE TABLE "table_main_sample" ("id" character varying(10) NOT NULL, "name" character varying(100) NOT NULL, "description" text NOT NULL, "dtime" text NOT NULL )',
+		array()
+	);
 } //end if
 //--
 
