@@ -16,7 +16,7 @@ ini_set('error_log', __DIR__.'/../tmp/phperrors.log'); // record them to a log
 //--
 
 //--
-require_once __DIR__.'/../vendor/autoload.php';
+require_once(__DIR__.'/../vendor/autoload.php');
 //--
 
 //-- Symfony Debug
@@ -76,15 +76,6 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
 });
 //--
 
-//-- Web Profiler
-if(SMART_APP_DEBUG === true) {
-	$app->register(new \Silex\Provider\WebProfilerServiceProvider(), array(
-		'profiler.cache_dir' => __DIR__.'/../tmp/profiler',
-		'web_profiler.debug_toolbar.enable' => true,
-		'web_profiler.debug_toolbar.intercept_redirects' => false
-	));
-} //end if
-//--
 
 //-- Doctrine DBAL
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
@@ -92,18 +83,20 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
 ));
 //--
 if(SMART_APP_DEBUG === true) {
-	$logger = new \Doctrine\DBAL\Logging\DebugStack();
-	$app['db.config']->setSQLLogger($logger);
+
+$app['sqlLogger'] = new \Doctrine\DBAL\Logging\DebugStack();
+$app['db.config']->setSQLLogger($app['sqlLogger']);
+
 } //end if
 //--
-$sql = "SELECT * FROM table_main_sample WHERE id = ?";
-$post = $app['dbs']['sqlite']->fetchAssoc($sql, array(1));
 if(!is_file(__DIR__.'/../tmp/db.sqlite')) {
 	$app['dbs']['sqlite']->executeQuery(
 		'CREATE TABLE "table_main_sample" ("id" character varying(10) NOT NULL, "name" character varying(100) NOT NULL, "description" text NOT NULL, "dtime" text NOT NULL )',
 		array()
 	);
 } //end if
+$sql = "SELECT * FROM table_main_sample WHERE id = ?";
+$post = $app['dbs']['sqlite']->fetchAssoc($sql, array(1));
 //--
 //print_r($logger);
 //--
@@ -126,6 +119,20 @@ $test = $app['mongodb']
 	->findOne(array('id' => 'some-id')); // methods in LoggableCollection.php
 print_r($test);
 */
+//--
+
+//	$app->register(new \Sorien\Provider\DoctrineProfilerServiceProvider());
+
+//-- Web Profiler
+if(SMART_APP_DEBUG === true) {
+	$app['twig.loader.filesystem']->addPath(__DIR__.'/../vendor/uxm/web-profiler/Silex/Provider/Resources/views', 'UxmWebProfiler');
+	require_once(__DIR__.'/../vendor/uxm/web-profiler/Silex/Provider/WebProfilerServiceProvider.php');
+	$app->register(new \UXM\Silex\WebProfiler\WebProfilerServiceProvider(), array(
+		'profiler.cache_dir' => __DIR__.'/../tmp/profiler',
+		'web_profiler.debug_toolbar.enable' => true,
+		'web_profiler.debug_toolbar.intercept_redirects' => false
+	));
+} //end if
 //--
 
 //-- Main Action

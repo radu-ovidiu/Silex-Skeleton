@@ -13,7 +13,7 @@
 <script type="text/javascript">
 $.ajaxSetup({
 	async: true, cache: false, timeout: 0,
-//	headers: {"X-Requested-With":"XMLHttpRequest"}
+	headers: { "X-Requested-With":"XMLHttpRequest" }
 });
 </script>
 <script type="text/javascript">
@@ -23,7 +23,7 @@ $(function(){
 		cache: false,
 		timeout: 0,
 		type: 'GET',
-		url: '{{asset('')}}js/test.json',
+		url: '{{asset('')}}js/test.txt',
 		//--
 		data: '',
 		dataType: 'json',
