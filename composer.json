@@ -12,6 +12,7 @@
         "symfony/finder": "2.6.5",
         "symfony/translation": "2.6.5",
         "symfony/monolog-bundle": "2.6.1",
-        "doctrine/dbal": "2.5.1"
+        "doctrine/dbal": "2.5.1",
+        "saxulum/saxulum-doctrine-mongodb-provider": "1.0.4"
     }
 }
