@@ -36,11 +36,44 @@ if(SMART_APP_DEBUG === true) {
 } //end if
 //--
 
+//-- Security
+$app->register(new Silex\Provider\SecurityServiceProvider(), array(
+	'security.firewalls' => array(
+		'secured' => array(
+			'pattern' => '^/admin',
+			'http' => true,
+			'users' => array(
+				// raw password is foo
+				'admin' => array('ROLE_ADMIN', '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg=='),
+			),
+		),
+		'logout' => array(
+			'pattern' => '^/adm-logout',
+			'http' => true,
+			'users' => array(
+			)
+		)
+	)
+));
+//--
+$app['security.access_rules'] = array(
+    array('^/admin', 'ROLE_ADMIN'), //, 'https'),
+    array('^.*$', 'ROLE_USER'),
+);
+//--
+
 //-- Base
 $app->register(new \Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new \Silex\Provider\ValidatorServiceProvider());
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new \Silex\Provider\HttpFragmentServiceProvider());
+//--
+
+//-- Session
+$app->register(new \Silex\Provider\SessionServiceProvider());
+$app['session.storage.save_path'] = __DIR__.'/../tmp';
+//$app['session']->set('variable', 'value');
+//$app['session']->get('variable');
 //--
 
 //-- Monolog
@@ -138,10 +171,18 @@ if(SMART_APP_DEBUG === true) {
 
 //-- Main Action
 $app->get('/', function() use ($app) {
-	return $app['twig']->render('benchmark.html.twig', array());
+	return $app['twig']->render('test.html.twig', array('title' => 'Homepage'));
 })->bind('homepage'); // give a name to the / route as homepage
+$app->get('/admin/{action}', function($action) use ($app) {
+	return $app['twig']->render('test.html.twig', array('title' => 'Administration Area [Action: '.$action.']'));
+})->value('action', 'default')->bind('administration'); // give a name to the / route as homepage
+$app->get('/adm-logout', function() use ($app) {
+	return 'Logout';
+})->bind('adminlogout'); // give a name to the / route as homepage
 //--
 
+//== Boot
+//$app->boot();
 //== Run
 $app->run();
 //==

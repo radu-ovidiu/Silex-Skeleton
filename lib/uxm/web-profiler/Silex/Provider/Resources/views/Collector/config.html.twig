@@ -67,8 +67,8 @@
 	{% set text %}
 		{% spaceless %}
 			<div class="sf-toolbar-info-piece">
-				<b>Name</b>
-				<span>Silex.App.Middleware</span>
+				<b>Authenticated as</b>
+				<span>{{ collector.httpauthname }}</span>
 			</div>
 			{% if constant('SMART_APP_DEBUG') == true %}
 				<div class="sf-toolbar-info-piece">
@@ -85,6 +85,10 @@
 						{{ collector.token }}
 					{% endif %}
 				</span>
+			</div>
+			<div class="sf-toolbar-info-piece">
+				<b>Name</b>
+				<span>Silex.App.Middleware</span>
 			</div>
 		{% endspaceless %}
 	{% endset %}

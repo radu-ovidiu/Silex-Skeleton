@@ -56,6 +56,11 @@ class ConfigDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        if(isset($_SERVER['PHP_AUTH_USER'])) {
+            $the_auth_user = ''.$_SERVER['PHP_AUTH_USER'];
+        } else {
+            $the_auth_user = '-';
+        } //end if else
         $this->data = array(
             'app_name' => 'Silex',
             'app_version' => '1.2.3.smart', //$this->version,
@@ -73,6 +78,7 @@ class ConfigDataCollector extends DataCollector
             'zend_opcache_enabled' => extension_loaded('Zend OPcache') && ini_get('opcache.enable'),
             'bundles' => array(),
             'sapi_name' => php_sapi_name(),
+            'http_auth_name' => $the_auth_user
         );
 
         if (isset($this->kernel)) {
@@ -80,6 +86,11 @@ class ConfigDataCollector extends DataCollector
                 $this->data['bundles'][$name] = $bundle->getPath();
             }
         }
+    }
+
+    public function getHttpAuthName()
+    {
+        return $this->data['http_auth_name'];
     }
 
     public function getApplicationName()
