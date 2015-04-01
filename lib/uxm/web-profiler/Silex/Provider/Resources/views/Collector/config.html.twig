@@ -66,22 +66,14 @@
 	{% endset %}
 	{% set text %}
 		{% spaceless %}
-			{% if 'n/a' != collector.appname %}
-				<div class="sf-toolbar-info-piece">
-					<b>Name</b>
-					<span>{{ collector.appname }}</span>
-				</div>
-			{% endif %}
-			{% if 'n/a' != collector.env %}
+			<div class="sf-toolbar-info-piece">
+				<b>Name</b>
+				<span>Silex.App.Middleware</span>
+			</div>
+			{% if constant('SMART_APP_DEBUG') == true %}
 				<div class="sf-toolbar-info-piece">
 					<b>Environment</b>
-					<span>{{ collector.env }}</span>
-				</div>
-			{% endif %}
-			{% if 'n/a' != collector.debug %}
-				<div class="sf-toolbar-info-piece">
-					<b>Debug</b>
-					<span class="{{ debug_status_class }}">{{ collector.debug ? 'en' : 'dis' }}abled</span>
+					<span>Debug / Development</span>
 				</div>
 			{% endif %}
 			<div class="sf-toolbar-info-piece">
@@ -182,20 +174,4 @@
 		</tr>
 	</table>
 
-	{% if collector.bundles %}
-		<h2>Active bundles</h2>
-		<table>
-			<tr>
-				<th>Name</th>
-				<th>Path</th>
-			</tr>
-			{% set bundles = collector.bundles %}
-			{% for name in bundles|keys|sort %}
-			<tr>
-				<th>{{ name }}</th>
-				<td>{{ bundles[name] }}</td>
-			</tr>
-			{% endfor %}
-		</table>
-	{% endif %}
 {% endblock %}
