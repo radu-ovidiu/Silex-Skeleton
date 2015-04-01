@@ -23,7 +23,6 @@ return array(
     'Symfony\\Bundle\\WebProfilerBundle\\' => array($vendorDir . '/symfony/web-profiler-bundle'),
     'Symfony\\Bridge\\Twig\\' => array($vendorDir . '/symfony/twig-bridge'),
     'Symfony\\Bridge\\Monolog\\' => array($vendorDir . '/symfony/monolog-bridge'),
-    'Silex\\Provider\\' => array($vendorDir . '/silex/web-profiler'),
     'Silex' => array($vendorDir . '/silex/silex/src'),
     'Saxulum\\DoctrineMongoDb' => array($vendorDir . '/saxulum/saxulum-doctrine-mongodb-provider/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),

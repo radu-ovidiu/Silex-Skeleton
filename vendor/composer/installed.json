@@ -810,53 +810,6 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "silex/web-profiler",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
-        "target-dir": "Silex/Provider",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/silexphp/Silex-WebProfiler.git",
-            "reference": "f0797151b766e41ab953e81bc66eb9d9114800f5"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/silexphp/Silex-WebProfiler/zipball/f0797151b766e41ab953e81bc66eb9d9114800f5",
-            "reference": "f0797151b766e41ab953e81bc66eb9d9114800f5",
-            "shasum": ""
-        },
-        "require": {
-            "silex/silex": "~1.0",
-            "symfony/stopwatch": "~2.2",
-            "symfony/web-profiler-bundle": "~2.4"
-        },
-        "time": "2015-03-27 13:32:13",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Silex\\Provider\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            }
-        ],
-        "description": "A WebProfiler for Silex",
-        "homepage": "http://silex.sensiolabs.org/"
-    },
-    {
         "name": "symfony/yaml",
         "version": "v2.6.5",
         "version_normalized": "2.6.5.0",

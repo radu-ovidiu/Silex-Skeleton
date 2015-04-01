@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Silex\Provider;
+namespace UXM\Silex\WebProfiler;
 
 use Symfony\Bridge\Twig\DataCollector\TwigDataCollector;
 use Symfony\Bridge\Twig\Extension\ProfilerExtension;
@@ -25,7 +25,7 @@ use Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtensi
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\HttpKernel\EventListener\ProfilerListener;
 use Symfony\Component\HttpKernel\Profiler\FileProfilerStorage;
-use Symfony\Component\HttpKernel\DataCollector\ConfigDataCollector;
+//use Symfony\Component\HttpKernel\DataCollector\ConfigDataCollector;
 use Symfony\Component\HttpKernel\DataCollector\ExceptionDataCollector;
 use Symfony\Component\HttpKernel\DataCollector\RequestDataCollector;
 use Symfony\Component\HttpKernel\DataCollector\RouterDataCollector;
@@ -40,6 +40,10 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceControllerResolver;
+
+require(__DIR__.'/ConfigDataCollector.php');
+require(__DIR__.'/AjaxDataCollector.php');
+require(__DIR__.'/DoctrineDataCollector.php');
 
 /**
  * Symfony Web Profiler provider.
@@ -56,7 +60,7 @@ class WebProfilerServiceProvider implements ServiceProviderInterface, Controller
         }));
 
         $app['data_collector.templates'] = array(
-            array('config',    '@WebProfiler/Collector/config.html.twig'),
+            array('config',    '@UxmWebProfiler/Collector/config.html.twig'), // @uxm
             array('request',   '@WebProfiler/Collector/request.html.twig'),
             array('exception', '@WebProfiler/Collector/exception.html.twig'),
             array('events',    '@WebProfiler/Collector/events.html.twig'),
@@ -67,6 +71,7 @@ class WebProfilerServiceProvider implements ServiceProviderInterface, Controller
             array('form',      '@WebProfiler/Collector/form.html.twig'),
             array('twig',      '@WebProfiler/Collector/twig.html.twig'),
             array('ajax',      '@WebProfiler/Collector/ajax.html.twig'), // uxm
+            array('db',        '@UxmWebProfiler/Collector/db.html.twig') // uxm
         );
 
         $app['data_collectors'] = $app->share(function ($app) {
@@ -80,6 +85,7 @@ class WebProfilerServiceProvider implements ServiceProviderInterface, Controller
                 'router'    => $app->share(function ($app) { return new RouterDataCollector(); }),
                 'memory'    => $app->share(function ($app) { return new MemoryDataCollector(); }),
                 'ajax'      => $app->share(function ($app) { return new AjaxDataCollector(); }), // uxm
+                'db'        => $app->share(function ($app) { return new DoctrineDataCollector($app['dbs'], $app['sqlLogger']); }) // uxm
             );
         });
 

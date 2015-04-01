@@ -1,7 +1,8 @@
 <?php
 
 //==
-require(__DIR__.'/../config/config.php');
+require(__DIR__.'/../etc/config.php');
+require(__DIR__.'/../lib/uxm/lib-uxm-utils.php');
 //==
 
 //--
@@ -125,8 +126,8 @@ print_r($test);
 
 //-- Web Profiler
 if(SMART_APP_DEBUG === true) {
-	$app['twig.loader.filesystem']->addPath(__DIR__.'/../vendor/uxm/web-profiler/Silex/Provider/Resources/views', 'UxmWebProfiler');
-	require_once(__DIR__.'/../vendor/uxm/web-profiler/Silex/Provider/WebProfilerServiceProvider.php');
+	$app['twig.loader.filesystem']->addPath(__DIR__.'/../lib/uxm/web-profiler/Silex/Provider/Resources/views', 'UxmWebProfiler');
+	require(__DIR__.'/../lib/uxm/web-profiler/Silex/Provider/WebProfilerServiceProvider.php');
 	$app->register(new \UXM\Silex\WebProfiler\WebProfilerServiceProvider(), array(
 		'profiler.cache_dir' => __DIR__.'/../tmp/profiler',
 		'web_profiler.debug_toolbar.enable' => true,
