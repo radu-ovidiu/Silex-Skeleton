@@ -18,8 +18,8 @@ use Symfony\Bundle\WebProfilerBundle\Controller\RouterController;
 use Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController;
 use Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener;
 use Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension;
-use Symfony\Component\Form\Extension\DataCollector\FormDataCollector;
-use Symfony\Component\Form\Extension\DataCollector\FormDataExtractor;
+//use Symfony\Component\Form\Extension\DataCollector\FormDataCollector;
+//use Symfony\Component\Form\Extension\DataCollector\FormDataExtractor;
 use Symfony\Component\Form\Extension\DataCollector\Proxy\ResolvedTypeFactoryDataCollectorProxy;
 use Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtension;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
@@ -68,7 +68,7 @@ class WebProfilerServiceProvider implements ServiceProviderInterface, Controller
             array('time',      '@WebProfiler/Collector/time.html.twig'),
             array('router',    '@WebProfiler/Collector/router.html.twig'),
             array('memory',    '@WebProfiler/Collector/memory.html.twig'),
-            array('form',      '@WebProfiler/Collector/form.html.twig'),
+//          array('form',      '@WebProfiler/Collector/form.html.twig'),
             array('twig',      '@WebProfiler/Collector/twig.html.twig'),
             array('ajax',      '@WebProfiler/Collector/ajax.html.twig'), // uxm
             array('db',        '@UxmWebProfiler/Collector/db.html.twig') // uxm
