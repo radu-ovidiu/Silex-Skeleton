@@ -123,32 +123,38 @@ if(SMART_APP_DEBUG === true) {
 //--
 
 //==
-$app->get('/{page}/{action}', function($page, $action) use ($app, $configs) {
-	//--
-	if(!preg_match('/^[a-z0-9_\-]+$/', $page)) {
-		//throw new Exception('Invalid Page / Action ...');
-		return '<h1>Invalid Page / Action ...</h1>';
+if(strpos($_SERVER['REQUEST_URI'], '/_profiler') === false) {
+	$app->get('/{page}/{action}', function($page, $action) use ($app, $configs) {
+		//--
+		if(!preg_match('/^[a-z0-9_\-]+$/', $page)) {
+			//throw new Exception('Invalid Page / Action ...');
+			return '<h1>Invalid Page / Action ...</h1>';
+		} //end if
+		//--
+		$module = __DIR__.'/../middlewares/controllers/'.$page.'.php';
+		//--
+		if(!is_file($module)) {
+			return '<h1>The Page / Action does not exists ...</h1>';
+		} //end if
+		//--
+		require($module);
+		//--
+		if(!class_exists('MiddlewareController')) {
+			return '<h1>Invalid Page / Class ...</h1>';
+		} //end if
+		//--
+		if((string)get_parent_class('MiddlewareController') != 'AbstractMiddlewareController') {
+			return '<h1>Invalid Page / Parent Class ...</h1>';
+		} //end if
+		//--
+		return (new MiddlewareController($app, $configs, $page, $action))->Run();
+		//--
+	})->value('page', 'homepage')->value('action', 'default')->bind('app');
+} else {
+	if(SMART_APP_DEBUG !== true) {
+		die('Profiler is not available ...');
 	} //end if
-	//--
-	$module = __DIR__.'/../middlewares/controllers/'.$page.'.php';
-	//--
-	if(!is_file($module)) {
-		return '<h1>The Page / Action does not exists ...</h1>';
-	} //end if
-	//--
-	require($module);
-	//--
-	if(!class_exists('MiddlewareController')) {
-		return '<h1>Invalid Page / Class ...</h1>';
-	} //end if
-	//--
-	if((string)get_parent_class('MiddlewareController') != 'AbstractMiddlewareController') {
-		return '<h1>Invalid Page / Parent Class ...</h1>';
-	} //end if
-	//--
-	return (new MiddlewareController($app, $configs, $page, $action))->Run();
-	//--
-})->value('page', 'homepage')->value('action', 'default')->bind('app');
+} //end if
 //==
 
 //== Run
