@@ -70,11 +70,11 @@ if(SMART_APP_DEBUG === true) {
 //-- Twig Base
 if(SMART_APP_DEBUG === true) {
 	$app->register(new \Silex\Provider\TwigServiceProvider(), array(
-		'twig.path' => __DIR__.'/../modules/views',
+		'twig.path' => __DIR__.'/../middlewares/views',
 	));
 } else {
 	$app->register(new \Silex\Provider\TwigServiceProvider(), array(
-		'twig.path' => __DIR__.'/../modules/views',
+		'twig.path' => __DIR__.'/../middlewares/views',
 		'twig.options' => array('cache' => __DIR__.'/../tmp/twig'),
 	));
 } //end if else
@@ -130,7 +130,7 @@ $app->get('/{page}/{action}', function($page, $action) use ($app, $configs) {
 		return '<h1>Invalid Page / Action ...</h1>';
 	} //end if
 	//--
-	$module = __DIR__.'/../modules/'.$page.'.php';
+	$module = __DIR__.'/../middlewares/controllers/'.$page.'.php';
 	//--
 	if(!is_file($module)) {
 		return '<h1>The Page / Action does not exists ...</h1>';
