@@ -25,24 +25,35 @@ class MiddlewareController extends AbstractMiddlewareController {
 			case 'sqlite':
 				//--
 				if(@is_array($this->configs['dbs.options'])) {
+					//--
+					$db = new \UXM\Db($this->app['dbs']['sqlite']);
+					//--
 					if(!is_file($this->configs['dbs.options']['sqlite']['path'])) {
-						$this->app['dbs']['sqlite']->executeQuery(
+						//--
+						$db->writeQuery('BEGIN');
+						$db->writeQuery(
 							'CREATE TABLE "table_main_sample" ("id" character varying(10) NOT NULL, "name" character varying(100) NOT NULL, "description" text NOT NULL, "dtime" text NOT NULL )',
 							array()
 						);
 						for($i=0; $i<9; $i++) {
-							$test = $this->app['dbs']['sqlite']->executeQuery(
-								' INSERT INTO "table_main_sample" ("id","name","description","dtime") VALUES (? , ?, ?, ?)',
+							$test = $db->writeQuery(
+								' INSERT INTO "table_main_sample" ("id","name","description","dtime") VALUES (?,?,?,?)',
 								array(($i+1), 'Name "'.($i+1).'"', "Description '".($i+1)."'", date('Y-m-d H:i:s O'))
-							)->rowCount();
+							);
 							if($test != 1) {
 								print_r($test);
 								break;
 							} //end if
 						} //end for
+						//--
+						$db->writeQuery('COMMIT');
+						//--
 					} //end if
-					$test = $this->app['dbs']['sqlite']->fetchAssoc("SELECT * FROM table_main_sample WHERE id = ?", array(1));
+					//--
+					$test = $db->readQuery("SELECT * FROM table_main_sample WHERE id < ?", array(4));
+					//--
 					$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test SQLite', 'content' => ''.print_r($test,1)));
+					//--
 				} //end if
 				//--
 				break;
