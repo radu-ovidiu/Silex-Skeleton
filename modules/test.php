@@ -1,0 +1,68 @@
+<?php
+
+//----------------------------------------------------- PREVENT DIRECT EXECUTION
+if(!defined('SILEX_RUNTIME_READY')) { // this must be defined in the first line of the application
+	die('Invalid Runtime Status in PHP Script: '.@basename(__FILE__).' ...');
+} //end if
+//-----------------------------------------------------
+
+//-- Tests (Sample)
+
+class MiddlewareController extends AbstractMiddlewareController {
+
+	public function Run() {
+
+		switch((string)$this->action) {
+			//--
+			case 'session':
+				$this->app['session']->set('mytest', true);
+				if($this->app['session']->get('mytest') !== true) {
+					throw new Exception('Session Test Failed !');
+				} //end if
+				$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test Session', 'content' => 'OK'));
+				break;
+			//--
+			case 'sqlite':
+				//--
+				if(@is_array($this->configs['dbs.options'])) {
+					if(!is_file($this->configs['dbs.options']['sqlite']['path'])) {
+						$this->app['dbs']['sqlite']->executeQuery(
+							'CREATE TABLE "table_main_sample" ("id" character varying(10) NOT NULL, "name" character varying(100) NOT NULL, "description" text NOT NULL, "dtime" text NOT NULL )',
+							array()
+						);
+						for($i=0; $i<9; $i++) {
+							$test = $this->app['dbs']['sqlite']->executeQuery(
+								' INSERT INTO "table_main_sample" ("id","name","description","dtime") VALUES (? , ?, ?, ?)',
+								array(($i+1), 'Name "'.($i+1).'"', "Description '".($i+1)."'", date('Y-m-d H:i:s O'))
+							)->rowCount();
+							if($test != 1) {
+								print_r($test);
+								break;
+							} //end if
+						} //end for
+					} //end if
+					$test = $this->app['dbs']['sqlite']->fetchAssoc("SELECT * FROM table_main_sample WHERE id = ?", array(1));
+					$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test SQLite', 'content' => ''.print_r($test,1)));
+				} //end if
+				//--
+				break;
+			//--
+			case 'mongodb':
+				if(@is_array($this->configs['mongodb.options'])) {
+					$test = $this->app['mongodb']->selectDatabase('mydb')->selectCollection('mycollection')->findOne(array('_id' => 'some-id')); // methods in LoggableCollection.php
+					$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test MongoDB', 'content' => ''.print_r($test,1)));
+				} //end if
+				break;
+			//--
+			default:
+				$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test', 'content' => ''));
+		} //end switch
+
+		return $out;
+
+	} //END FUNCTION
+
+} //END CLASS
+
+// end of php code
+?>

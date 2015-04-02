@@ -1,5 +1,11 @@
 <?php
 
+//----------------------------------------------------- PREVENT DIRECT EXECUTION
+if(!defined('SILEX_RUNTIME_READY')) { // this must be defined in the first line of the application
+	die('Invalid Runtime Status in PHP Script: '.@basename(__FILE__).' ...');
+} //end if
+//-----------------------------------------------------
+
 //--
 define('SMART_APP_DEBUG', true);
 //--

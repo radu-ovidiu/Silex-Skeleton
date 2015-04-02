@@ -1,6 +1,10 @@
 <?php
 
 //==
+define('SILEX_RUNTIME_READY', true);
+//==
+
+//==
 require(__DIR__.'/../etc/config.php');
 //==
 require(__DIR__.'/../lib/uxm/lib-uxm-utils.php');
@@ -66,11 +70,11 @@ if(SMART_APP_DEBUG === true) {
 //-- Twig Base
 if(SMART_APP_DEBUG === true) {
 	$app->register(new \Silex\Provider\TwigServiceProvider(), array(
-		'twig.path' => __DIR__.'/../templates',
+		'twig.path' => __DIR__.'/../modules/views',
 	));
 } else {
 	$app->register(new \Silex\Provider\TwigServiceProvider(), array(
-		'twig.path' => __DIR__.'/../templates',
+		'twig.path' => __DIR__.'/../modules/views',
 		'twig.options' => array('cache' => __DIR__.'/../tmp/twig'),
 	));
 } //end if else
@@ -119,11 +123,62 @@ if(SMART_APP_DEBUG === true) {
 //--
 
 //==
-require(__DIR__.'/../modules/app.php');
+$app->get('/{page}/{action}', function($page, $action) use ($app, $configs) {
+	//--
+	if(!preg_match('/^[a-z0-9_]+$/', $page)) {
+		//throw new Exception('Invalid Page / Action ...');
+		return '<h1>Invalid Page / Action ...</h1>';
+	} //end if
+	//--
+	$module = __DIR__.'/../modules/'.$page.'.php';
+	//--
+	if(!is_file($module)) {
+		return '<h1>The Page / Action does not exists ...</h1>';
+	} //end if
+	//--
+	require($module);
+	//--
+	if(!class_exists('MiddlewareController')) {
+		return '<h1>Invalid Page / Class ...</h1>';
+	} //end if
+	//--
+	if((string)get_parent_class('MiddlewareController') != 'AbstractMiddlewareController') {
+		return '<h1>Invalid Page / Parent Class ...</h1>';
+	} //end if
+	//--
+	return (new MiddlewareController($app, $configs, $page, $action))->Run();
+	//--
+})->value('page', 'homepage')->value('action', 'default')->bind('app');
 //==
 
 //== Run
 $app->run();
+//==
+
+//==
+abstract class AbstractMiddlewareController {
+
+	protected $app;
+	protected $configs;
+	protected $page;
+	protected $action;
+
+	final public function __construct(\Silex\Application $app, $configs, $page, $action) {
+		//--
+		$this->app = $app;
+		$this->configs = (array) $configs;
+		$this->page = ''.$page;
+		$this->action = ''.$action;
+		//--
+	} //END FUNCTION
+
+	public function Run() {
+		//--
+		// this must be extended
+		//--
+	} //END FUNCTION
+
+} //END CLASS
 //==
 
 // end of php code
