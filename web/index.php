@@ -125,7 +125,7 @@ if(SMART_APP_DEBUG === true) {
 //==
 $app->get('/{page}/{action}', function($page, $action) use ($app, $configs) {
 	//--
-	if(!preg_match('/^[a-z0-9_]+$/', $page)) {
+	if(!preg_match('/^[a-z0-9_\-]+$/', $page)) {
 		//throw new Exception('Invalid Page / Action ...');
 		return '<h1>Invalid Page / Action ...</h1>';
 	} //end if
