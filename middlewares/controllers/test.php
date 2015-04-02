@@ -55,7 +55,12 @@ class MiddlewareController extends AbstractMiddlewareController {
 				break;
 			//--
 			default:
-				$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test', 'content' => ''));
+				$request = (array) $_REQUEST;
+				$request['a'] = (string) ''.$_REQUEST['a'];
+				if($request['a'] == '') {
+					$request['a'] = 'default';
+				} //end if
+				$out = $this->app['twig']->render('test.html.twig', array('title' => 'Test', 'content' => ''.print_r($request)));
 		} //end switch
 
 		return $out;

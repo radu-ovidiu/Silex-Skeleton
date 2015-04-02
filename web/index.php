@@ -11,6 +11,16 @@ require(__DIR__.'/../lib/uxm/lib-uxm-utils.php');
 //==
 
 //--
+require_once(__DIR__.'/../vendor/autoload.php');
+//--
+
+//-- Symfony Debug
+if(SMART_APP_DEBUG === true) {
+	\Symfony\Component\Debug\Debug::enable();
+} //end if
+//--
+
+//--
 ini_set('default_charset', 'UTF-8');
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 if(SMART_APP_DEBUG === true) {
@@ -19,16 +29,6 @@ if(SMART_APP_DEBUG === true) {
 	ini_set('display_errors', '0');	// hide runtime errors
 } //end if else
 ini_set('error_log', __DIR__.'/../tmp/phperrors.log'); // record them to a log
-//--
-
-//--
-require_once(__DIR__.'/../vendor/autoload.php');
-//--
-
-//-- Symfony Debug
-if(SMART_APP_DEBUG === true) {
-	\Symfony\Component\Debug\Debug::enable();
-} //end if
 //--
 
 //== App
