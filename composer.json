@@ -13,6 +13,7 @@
         "symfony/security": "2.6.5",
         "symfony/monolog-bundle": "2.6.1",
         "doctrine/dbal": "2.5.1",
-        "saxulum/saxulum-doctrine-mongodb-provider": "1.0.4"
+        "saxulum/saxulum-doctrine-mongodb-provider": "1.0.4",
+        "swiftmailer/swiftmailer": "5.3.1"
     }
 }

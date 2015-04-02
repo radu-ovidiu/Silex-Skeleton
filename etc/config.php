@@ -21,7 +21,17 @@ $configs = [
 			'path' => 	__DIR__.'/../tmp/db.sqlite',
 			//'charset' 	=> 'utf8',
 		]
+	],
+/*
+	'mongodb.options' => [
+		'server' => 'mongodb://localhost:27017',
+		'options' => [
+			//'username' => 'root',
+			//'password' => '',
+			//'db' => ''
+		]
 	]
+*/
 ];
 //--
 

@@ -2,6 +2,7 @@
 
 //==
 require(__DIR__.'/../etc/config.php');
+//==
 require(__DIR__.'/../lib/uxm/lib-uxm-utils.php');
 //==
 
@@ -36,31 +37,9 @@ if(SMART_APP_DEBUG === true) {
 } //end if
 //--
 
-//-- Security
-$app->register(new Silex\Provider\SecurityServiceProvider(), array(
-	'security.firewalls' => array(
-		'secured' => array(
-			'pattern' => '^/admin',
-			'http' => true,
-			'users' => array(
-				// raw password is foo
-				'admin' => array('ROLE_ADMIN', '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg=='),
-			),
-		),
-		'logout' => array(
-			'pattern' => '^/adm-logout',
-			'http' => true,
-			'users' => array(
-			)
-		)
-	)
-));
-//--
-$app['security.access_rules'] = array(
-    array('^/admin', 'ROLE_ADMIN'), //, 'https'),
-    array('^.*$', 'ROLE_USER'),
-);
-//--
+//==
+require(__DIR__.'/../modules/auth.php');
+//==
 
 //-- Base
 $app->register(new \Silex\Provider\UrlGeneratorServiceProvider());
@@ -72,8 +51,6 @@ $app->register(new \Silex\Provider\HttpFragmentServiceProvider());
 //-- Session
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app['session.storage.save_path'] = __DIR__.'/../tmp';
-//$app['session']->set('variable', 'value');
-//$app['session']->get('variable');
 //--
 
 //-- Monolog
@@ -110,52 +87,28 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
 });
 //--
 
-
 //-- Doctrine DBAL
-$app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
-	'dbs.options' => $configs['dbs.options']
-));
-//--
-if(SMART_APP_DEBUG === true) {
-
-$app['sqlLogger'] = new \Doctrine\DBAL\Logging\DebugStack();
-$app['db.config']->setSQLLogger($app['sqlLogger']);
-
+if(@is_array($configs['dbs.options'])) {
+	//--
+	$app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
+		'dbs.options' => $configs['dbs.options']
+	));
+	//--
+	if(SMART_APP_DEBUG === true) {
+		$app['sqlLogger'] = new \Doctrine\DBAL\Logging\DebugStack();
+		$app['db.config']->setSQLLogger($app['sqlLogger']);
+	} //end if
+	//--
 } //end if
-//--
-if(!is_file(__DIR__.'/../tmp/db.sqlite')) {
-	$app['dbs']['sqlite']->executeQuery(
-		'CREATE TABLE "table_main_sample" ("id" character varying(10) NOT NULL, "name" character varying(100) NOT NULL, "description" text NOT NULL, "dtime" text NOT NULL )',
-		array()
-	);
-} //end if
-$sql = "SELECT * FROM table_main_sample WHERE id = ?";
-$post = $app['dbs']['sqlite']->fetchAssoc($sql, array(1));
-//--
-//print_r($logger);
 //--
 
 //-- MongoDB
-/*
-$app->register(new \Saxulum\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider(), array(
-	'mongodb.options' => array(
-		'server' => 'mongodb://localhost:27017',
-		'options' => array(
-			//'username' => 'root',
-			//'password' => '',
-			//'db' => ''
-		)
-	)
-));
-$test = $app['mongodb']
-	->selectDatabase('mydb')
-	->selectCollection('mycollection')
-	->findOne(array('id' => 'some-id')); // methods in LoggableCollection.php
-print_r($test);
-*/
+if(@is_array($configs['mongodb.options'])) {
+	$app->register(new \Saxulum\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider(), array(
+		'mongodb.options' => $configs['mongodb.options']
+	));
+} //end if
 //--
-
-//	$app->register(new \Sorien\Provider\DoctrineProfilerServiceProvider());
 
 //-- Web Profiler
 if(SMART_APP_DEBUG === true) {
@@ -169,20 +122,10 @@ if(SMART_APP_DEBUG === true) {
 } //end if
 //--
 
-//-- Main Action
-$app->get('/', function() use ($app) {
-	return $app['twig']->render('test.html.twig', array('title' => 'Homepage'));
-})->bind('homepage'); // give a name to the / route as homepage
-$app->get('/admin/{action}', function($action) use ($app) {
-	return $app['twig']->render('test.html.twig', array('title' => 'Administration Area [Action: '.$action.']'));
-})->value('action', 'default')->bind('administration'); // give a name to the / route as homepage
-$app->get('/adm-logout', function() use ($app) {
-	return 'Logout';
-})->bind('adminlogout'); // give a name to the / route as homepage
-//--
+//==
+require(__DIR__.'/../modules/app.php');
+//==
 
-//== Boot
-//$app->boot();
 //== Run
 $app->run();
 //==
