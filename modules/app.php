@@ -7,8 +7,30 @@ $app->get('/', function() use ($app) {
 //--
 
 //-- Administration
-$app->get('/admin/{action}', function($action) use ($app) {
+$app->get('/admin/{action}', function($action) use ($app, $configs) {
+
+	$username = $app['request']->server->get('PHP_AUTH_USER', false);
+	$password = $app['request']->server->get('PHP_AUTH_PW');
+
+	if(((string)$action == 'logout') || ((string)$username != (string)$configs['auth']['username']) || ((string)$password != (string)$configs['auth']['password'])) {
+		$response = new \Symfony\Component\HttpFoundation\Response();
+		$response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'Admin Area'));
+		//$app['session']->set('user', array('username' => $username));
+		if('logout' === $action) {
+			if((string)$username == '') {
+				$response->setStatusCode(307);
+				$response->headers->set('Location', $app['url_generator']->generate('homepage'));
+			} else {
+				$response->setStatusCode(401, 'Authorization Required');
+			} //end if else
+		} else {
+			$response->setStatusCode(401, 'Authorization Required');
+		} //end if
+		return $response;
+	} //end if
+
 	return $app['twig']->render('test.html.twig', array('title' => 'Administration Area', 'content' => '[Action: '.$action.']'));
+
 })->value('action', 'default')->bind('administration'); // give a name to the / route as homepage
 //--
 

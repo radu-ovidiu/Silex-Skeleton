@@ -13,11 +13,15 @@
 	{% set text %}
 		{% if collector.applicationname %}
 			<div class="sf-toolbar-info-piece">
-				<span style="font-size:15px;"><a href="http://silex.sensiolabs.org/documentation" target="_blank">{{ collector.applicationname }} Framework</a> <b>{{ collector.applicationversion }}</b></span>
+				<div class="sf-toolbar-status sf-toolbar-status-green" style="width:92%; padding:8px; font-size:15px;">{{ collector.applicationname }} Framework <b>{{ collector.applicationversion }}</b></div>
+				<br>
+				<a href="http://silex.sensiolabs.org/documentation" target="_blank">Silex Documentation</a>
 			</div>
 		{% endif %}
 		<div class="sf-toolbar-info-piece">
-			<span style="font-size:13px;">with <a href="http://symfony.com/doc/{{ collector.symfonyversion }}" target="_blank">Symfony Framework</a> (base) <b>{{ collector.symfonyversion }}</b></span>
+			<span style="font-size:13px;">with Symfony Framework (base) <b>{{ collector.symfonyversion }}</b></span>
+			<br>
+			<a href="http://symfony.com/doc/{{ collector.symfonyversion }}" target="_blank">Symfony Documentation</a>
 		</div>
 		<div class="sf-toolbar-info-piece">
 			Project maintainer: <a href="http://www.unix-world.org/" target="_blank">Unix-World.org</a><br>
@@ -55,7 +59,7 @@
 	{% set debug_status_class %}sf-toolbar-status sf-toolbar-status-{{ collector.debug ? 'green' : 'red' }}{% endset %}
 	{% set icon %}
 		<img width="21" height="28" alt="Environment" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAMAAAC5xgRsAAAAZlBMVEX///////////////////////////////////////////////////////////////////////////////////////////+ZmZmZmZlISEhJSUmdnZ1HR0fR0dFZWVlpaWlfX18/Pz+puygPAAAAIXRSTlMACwwlJygpLzIzNjs8QEtMUmd6e32AucDBw8fIydTm6u5l8MjvAAAAo0lEQVR42r2P2Q6CMBBFL6XsZRGRfZv//0nbDBNEE19MnJeTc5ILKf58ahiUwzy/AJpIWwREwQnEXRdbGCLjrO+djWRvVMiJcigxB7viGogxDdJpSmHEmCVPS7YczJvgUu+CS30IvtbNYZMvsGVo2mVpG/kbm4auiCpdcC3YPCAhSpAdUzaAn6qPKZtUT6ZSzb4bi2hdo9MQ1nX4ASjfV+/4/Z40pyCHrNTbIgAAAABJRU5ErkJggg==" />
-		<span class="sf-toolbar-info-piece-additional-detail {{ debug_status_class }}"> </span>
+		<!--<span class="sf-toolbar-info-piece-additional-detail {{ debug_status_class }}"> </span> -->
 		<span class="sf-toolbar-info-piece-additional sf-toolbar-status">{{ token }}</span>
 		{% if 'n/a' != collector.appname or 'n/a' != collector.env %}
 			<span class="sf-toolbar-info-piece-additional-detail">
@@ -63,12 +67,23 @@
 				<span>{{ collector.env }}</span>
 			</span>
 		{% endif %}
+		{% if collector.httpauthname %}
+		<span class="sf-toolbar-status-green" style="padding-left:2px; padding-right:2px;">
+		{% else %}
+		<span>
+		{% endif %}
+			<img width="24" height="28" alt="Authentication" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAcCAYAAAB75n/uAAAC70lEQVR42u2V3UtTYRzHu+mFwCwK+gO6CEryPlg7yiYx50vDqUwjFIZDSYUk2ZTmCysHvg9ZVggOQZiRScsR4VwXTjEwdKZWk8o6gd5UOt0mbev7g/PAkLONIOkiBx+25/v89vuc85zn2Q5Fo9F95UDwnwhS5HK5TyqVRv8m1JN6k+AiC+fn54cwbgFNIrTQ/J9IqDcJJDGBHsgDgYBSq9W6ysvLPf39/SSUUU7zsQ1yc3MjmN90OBzfRkZG1umzQqGIxPSTkIBjgdDkaGNjoza2kcFgUCE/QvMsq6io2PV6vQu1tbV8Xl7etkql2qqvr/+MbDE/Pz8s9OP2Cjhwwmw29+4R3Kec1WZnZ4fn5uamc3Jyttra2qbH8ero6JgdHh5+CvFHq9X6JZHgzODgoCVW0NPTY0N+ltU2Nzdv4GqXsYSrPp+vDw80aLFYxru6uhyQ/rDb7a8TCVJDodB1jUazTVlxcXGQ5/mbyE+z2u7u7veY38BVT3Z2djopm5qa6isrK/tQWVn5qb29fSGR4DC4PDAwMEsZHuArjGnyGKutq6v7ajQaF6urq9/MzMz0QuSemJiwQDwGkR0POhhXgILjNTU1TaWlpTxlOp1uyWQyaUjMajMzM8Nut/tJQUHBOpZppbCwkM/KytrBznuL9xDVxBMo8KXHYnu6qKjIivmrbIy67x6Px4Yd58W672ApfzY0NCyNjo7OZmRkiAv8fr+O47iwmABXtoXaG3uykF6vX7bZbF6cgZWqqiqezYkKcNtmjO+CF2AyhufgjsvlMiU7vXEF+4C4ALf9CwdrlVAqlcFkTdRqdQSHLUDgBEeSCrArAsiGwENs0XfJBE6ncxm1D8Aj/B6tigkkJSUlmxSwLYhMDeRsyyUCd+lHrWxtbe2aTCbbZTn1ZD92F0Cr8GBfgnsgDZwDt8EzMBmHMXBLqD0PDMAh9Gql3iRIESQSIAXp4CRIBZeEjIvDFZAm1J4C6UK9ROiZcvCn/+8FvwHtDdJEaRY+oQAAAABJRU5ErkJggg==">
+		</span>
 	{% endset %}
 	{% set text %}
 		{% spaceless %}
 			<div class="sf-toolbar-info-piece">
 				<b>Authenticated as</b>
-				<span>{{ collector.httpauthname }}</span>
+				{% if collector.httpauthname %}
+					<span class="sf-toolbar-info-piece-additional-detail sf-toolbar-status sf-toolbar-status-green">{{ collector.httpauthname }}</span>
+				{% else %}
+					<span>-</span>
+				{% endif %}
 			</div>
 			{% if constant('SMART_APP_DEBUG') == true %}
 				<div class="sf-toolbar-info-piece">
@@ -78,7 +93,7 @@
 			{% endif %}
 			<div class="sf-toolbar-info-piece">
 				<b>Token</b>
-				<span>
+				<span class="sf-toolbar-status sf-toolbar-status-green" style="padding-left:2px; padding-right:2px;">
 					{% if profiler_url %}
 						<a href="{{ profiler_url }}">{{ collector.token }}</a>
 					{% else %}

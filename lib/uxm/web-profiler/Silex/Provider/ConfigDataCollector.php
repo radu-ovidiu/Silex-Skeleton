@@ -59,10 +59,10 @@ class ConfigDataCollector extends DataCollector
         if(isset($_SERVER['PHP_AUTH_USER'])) {
             $the_auth_user = ''.$_SERVER['PHP_AUTH_USER'];
         } else {
-            $the_auth_user = '-';
+            $the_auth_user = '';
         } //end if else
         $this->data = array(
-            'app_name' => 'Silex',
+            'app_name' => 'Silex.App',
             'app_version' => '1.2.3.smart', //$this->version,
             'token' => $response->headers->get('X-Debug-Token'),
             'symfony_version' => Kernel::VERSION,

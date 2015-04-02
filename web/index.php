@@ -37,10 +37,6 @@ if(SMART_APP_DEBUG === true) {
 } //end if
 //--
 
-//==
-require(__DIR__.'/../modules/auth.php');
-//==
-
 //-- Base
 $app->register(new \Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new \Silex\Provider\ValidatorServiceProvider());

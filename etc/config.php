@@ -10,6 +10,10 @@ date_default_timezone_set('UTC');
 
 //--
 $configs = [
+	'auth' => [
+		'username' => 'admin',
+		'password' => 'test'
+	],
 	'dbs.options' => [
 		'sqlite' => [
 			'driver' 	=> 'pdo_sqlite',
