@@ -8,6 +8,7 @@ namespace UXM;
 
 class Utils {
 
+	// ::
 
 	// this is a safer replacement for htmlspecialchars() in the HTML5 context
 	public static function escape_html($y_string) {

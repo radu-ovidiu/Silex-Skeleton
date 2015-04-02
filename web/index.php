@@ -8,6 +8,9 @@ define('SILEX_RUNTIME_READY', true);
 require(__DIR__.'/../etc/config.php');
 //==
 require(__DIR__.'/../lib/uxm/lib-uxm-utils.php');
+if(@is_array($configs['dbs.options'])) {
+	require(__DIR__.'/../lib/uxm/lib-uxm-doctrine-dbal-handler.php');
+} //end if
 //==
 
 //--
