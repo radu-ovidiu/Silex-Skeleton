@@ -1,7 +1,7 @@
 <?php
 // Db Interface for Silex / Doctrine Dbal
 // author: Radu Ilies
-// 2015-02-21
+// 2015-04-03
 // License: BSD
 
 namespace UXM;
@@ -11,17 +11,17 @@ class Db {
 	private $connection;
 
 
-	public function __construct($connection) {
+	public function __construct(\Doctrine\DBAL\Connection $connection) {
 		//--
 		$this->connection = $connection;
 		//--
 	} //END FUNCTION
 
 
-	public function readQuery($query, $values='') {
+	public function readQuery($query, array $values=array()) {
 		//--
 		if(!is_array($values)) {
-			$values = array();
+			throw new \Exception('ERROR: '.get_class($this).'->'.__FUNCTION__.'() expects array for parameters');
 		} //end if
 		//--
 		$query = $this->connection->executeQuery($query, $values);
@@ -31,10 +31,10 @@ class Db {
 	} //END FUNCTION
 
 
-	public function countQuery($query, $values='') {
+	public function countQuery($query, array $values=array()) {
 		//--
 		if(!is_array($values)) {
-			$values = array();
+			throw new \Exception('ERROR: '.get_class($this).'->'.__FUNCTION__.'() expects array for parameters');
 		} //end if
 		//--
 		$query = $this->connection->executeQuery($query, $values);
@@ -54,10 +54,10 @@ class Db {
 	} //END FUNCTION
 
 
-	public function writeQuery($query, $values='') {
+	public function writeQuery($query, array $values=array()) {
 		//--
 		if(!is_array($values)) {
-			$values = array();
+			throw new \Exception('ERROR: '.get_class($this).'->'.__FUNCTION__.'() expects array for parameters');
 		} //end if
 		//--
 		$query = $this->connection->executeQuery($query, $values);

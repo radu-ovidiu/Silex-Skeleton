@@ -33,7 +33,7 @@ if(SMART_APP_DEBUG === true) {
 } else {
 	ini_set('display_errors', '0');	// hide runtime errors
 } //end if else
-ini_set('error_log', __DIR__.'/../tmp/phperrors.log'); // record them to a log
+ini_set('error_log', __DIR__.'/../tmp/phperrors-'.date('Y-m-d').'.log'); // record them to a log
 //--
 
 //== App
@@ -62,12 +62,12 @@ $app['session.storage.save_path'] = __DIR__.'/../tmp';
 if(SMART_APP_DEBUG === true) {
 	$app->register(new \Silex\Provider\MonologServiceProvider(), array(
 		'monolog.level' => \Monolog\Logger::DEBUG,
-		'monolog.logfile' => __DIR__.'/../tmp/monolog-dev.log',
+		'monolog.logfile' => __DIR__.'/../tmp/app-log-debug-'.date('Y-m-d').'.log',
 	));
 } else {
 	$app->register(new \Silex\Provider\MonologServiceProvider(), array(
 		'monolog.level' => \Monolog\Logger::WARNING,
-		'monolog.logfile' => __DIR__.'/../tmp/monolog-prod.log',
+		'monolog.logfile' => __DIR__.'/../tmp/app-log-'.date('Y-m-d').'.log',
 	));
 } //end if else
 //--

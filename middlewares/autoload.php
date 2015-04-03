@@ -16,23 +16,19 @@ function autoload__SmartSilex($classname) {
 		$parts = explode('\\', $classname);
 		//--
 		$max = count($parts) - 1; // the last is the class
-		$dir = __DIR__.'/libs/';
-		for($i=0; $i<$max; $i++) {
-			$dir .= $parts[$i].'/';
-		} //end for
+		//--
+		if((string)$parts[0] == 'DataModels') {
+			$dir = __DIR__.'/models/';
+		} else {
+			$dir = __DIR__.'/libs/';
+			for($i=0; $i<$max; $i++) {
+				$dir .= $parts[$i].'/';
+			} //end for
+		} //end if else
+		//--
 		$file = $parts[$max];
 		//--
 		$path = $dir.$file.'.php';
-		//--
-		if(!is_file($path)) {
-			return;
-		} //end if
-		//--
-		require_once($path);
-		//--
-	} elseif(substr($classname, 0, 5) == 'Model') { // models
-		//--
-		$path = __DIR__.'/models/'.$classname.'.php';
 		//--
 		if(!is_file($path)) {
 			return;
