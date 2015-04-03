@@ -1,6 +1,10 @@
 <?php
 
 //==
+require_once(__DIR__.'/../vendor/autoload.php');
+//==
+
+//==
 define('SILEX_RUNTIME_READY', true);
 //==
 
@@ -12,10 +16,8 @@ if(@is_array($configs['dbs.options'])) {
 	require(__DIR__.'/../lib/uxm/lib-uxm-doctrine-dbal-handler.php');
 } //end if
 //==
-
-//--
-require_once(__DIR__.'/../vendor/autoload.php');
-//--
+require(__DIR__.'/../middlewares/autoload.php');
+//==
 
 //-- Symfony Debug
 if(SMART_APP_DEBUG === true) {
@@ -130,7 +132,6 @@ if(strpos($_SERVER['REQUEST_URI'], '/_profiler') === false) {
 	$app->get('/{page}/{action}', function($page, $action) use ($app, $configs) {
 		//--
 		if(!preg_match('/^[a-z0-9_\-]+$/', $page)) {
-			//throw new Exception('Invalid Page / Action ...');
 			return '<h1>Invalid Page / Action ...</h1>';
 		} //end if
 		//--
