@@ -118,7 +118,7 @@ class InlineServiceDefinitionsPassTest extends \PHPUnit_Framework_TestCase
         $b = $container
             ->register('b')
             ->setPublic(false)
-            ->setFactory(array(new Reference('a'), 'a'))
+            ->setFactoryService('a')
         ;
 
         $container
@@ -142,7 +142,7 @@ class InlineServiceDefinitionsPassTest extends \PHPUnit_Framework_TestCase
         $container
             ->register('b')
             ->setPublic(false)
-            ->setFactory(array(new Reference('a'), 'a'))
+            ->setFactoryService('a')
         ;
 
         $container
@@ -168,12 +168,12 @@ class InlineServiceDefinitionsPassTest extends \PHPUnit_Framework_TestCase
         $container
             ->register('b')
             ->setPublic(false)
-            ->setFactory(array(new Reference('a'), 'a'))
+            ->setFactoryService('a')
         ;
 
         $inlineFactory = new Definition();
         $inlineFactory->setPublic(false);
-        $inlineFactory->setFactory(array(new Reference('b'), 'b'));
+        $inlineFactory->setFactoryService('b');
 
         $container
             ->register('foo')
@@ -235,23 +235,6 @@ class InlineServiceDefinitionsPassTest extends \PHPUnit_Framework_TestCase
 
         $calls = $container->getDefinition('foo')->getMethodCalls();
         $this->assertSame($ref, $calls[0][1][0]);
-    }
-
-    public function testProcessDoesNotInlineFactories()
-    {
-        $container = new ContainerBuilder();
-        $container
-            ->register('foo.factory')
-            ->setPublic(false)
-        ;
-        $container
-            ->register('foo')
-            ->setFactory(array(new Reference('foo.factory'), 'getFoo'))
-        ;
-        $this->process($container);
-
-        $factory = $container->getDefinition('foo')->getFactory();
-        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $factory[0]);
     }
 
     protected function process(ContainerBuilder $container)

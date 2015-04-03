@@ -19,16 +19,13 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "~2.7",
         "symfony/config": "~2.3,>=2.3.12",
         "symfony/intl": "~2.3",
-        "symfony/yaml": "~2.2",
-        "psr/log": "~1.0"
+        "symfony/yaml": "~2.2"
     },
     "suggest": {
         "symfony/config": "",
-        "symfony/yaml": "",
-        "psr/log": "To use logging capability in translator"
+        "symfony/yaml": ""
     },
     "autoload": {
         "psr-0": { "Symfony\\Component\\Translation\\": "" }
@@ -37,7 +34,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.6-dev"
+            "dev-master": "2.5-dev"
         }
     }
 }

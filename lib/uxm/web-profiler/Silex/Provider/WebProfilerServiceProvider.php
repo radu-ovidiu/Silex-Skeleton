@@ -68,10 +68,9 @@ class WebProfilerServiceProvider implements ServiceProviderInterface, Controller
             array('time',      '@WebProfiler/Collector/time.html.twig'),
             array('router',    '@WebProfiler/Collector/router.html.twig'),
             array('memory',    '@WebProfiler/Collector/memory.html.twig'),
-//          array('form',      '@WebProfiler/Collector/form.html.twig'),
             array('twig',      '@WebProfiler/Collector/twig.html.twig'),
-            array('ajax',      '@WebProfiler/Collector/ajax.html.twig'), // uxm
-            array('db',        '@UxmWebProfiler/Collector/db.html.twig') // uxm
+            array('db',        '@UxmWebProfiler/Collector/db.html.twig'), // uxm
+            array('ajax',      '@UxmWebProfiler/Collector/ajax.html.twig') // uxm
         );
 
         $app['data_collectors'] = $app->share(function ($app) {
@@ -84,8 +83,8 @@ class WebProfilerServiceProvider implements ServiceProviderInterface, Controller
                 'time'      => $app->share(function ($app) { return new TimeDataCollector(null, $app['stopwatch']); }),
                 'router'    => $app->share(function ($app) { return new RouterDataCollector(); }),
                 'memory'    => $app->share(function ($app) { return new MemoryDataCollector(); }),
-                'ajax'      => $app->share(function ($app) { return new AjaxDataCollector(); }), // uxm
-                'db'        => $app->share(function ($app) { return new DoctrineDataCollector($app['dbs'], $app['sqlLogger']); }) // uxm
+                'db'        => $app->share(function ($app) { return new DoctrineDataCollector($app['dbs'], $app['sqlLogger']); }), // uxm
+                'ajax'      => $app->share(function ($app) { return new AjaxDataCollector(); }) // uxm
             );
         });
 

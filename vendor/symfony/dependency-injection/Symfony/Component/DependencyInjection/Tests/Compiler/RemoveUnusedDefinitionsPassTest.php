@@ -86,12 +86,14 @@ class RemoveUnusedDefinitionsPassTest extends \PHPUnit_Framework_TestCase
 
         $container
             ->register('foo', 'stdClass')
-            ->setFactory(array('stdClass', 'getInstance'))
+            ->setFactoryClass('stdClass')
+            ->setFactoryMethod('getInstance')
             ->setPublic(false);
 
         $container
             ->register('bar', 'stdClass')
-            ->setFactory(array(new Reference('foo'), 'getInstance'))
+            ->setFactoryService('foo')
+            ->setFactoryMethod('getInstance')
             ->setPublic(false);
 
         $container

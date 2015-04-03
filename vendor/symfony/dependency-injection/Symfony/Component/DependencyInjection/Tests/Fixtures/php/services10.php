@@ -42,14 +42,6 @@ class ProjectServiceContainer extends Container
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function compile()
-    {
-        throw new LogicException('You cannot compile a dumped frozen container.');
-    }
-
-    /**
      * Gets the 'test' service.
      *
      * This service is shared.
@@ -105,7 +97,6 @@ class ProjectServiceContainer extends Container
 
         return $this->parameterBag;
     }
-
     /**
      * Gets the default parameters.
      *

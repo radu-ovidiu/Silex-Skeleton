@@ -31,7 +31,7 @@ class SimpleAuthenticationHandlerTest extends \PHPUnit_Framework_TestCase
 
     private $response;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->successHandler = $this->getMock('Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface');
         $this->failureHandler = $this->getMock('Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface');

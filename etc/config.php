@@ -28,7 +28,7 @@ $configs = [
 			'dbname' 	=> null,
 			'user' 		=> null,
 			'password' 	=> null,
-			'path' => 	__DIR__.'/../tmp/db.sqlite',
+			'path' => 	__DIR__.'/../tmp/db.sqlite3',
 			//'charset' 	=> 'utf8',
 		]
 	],

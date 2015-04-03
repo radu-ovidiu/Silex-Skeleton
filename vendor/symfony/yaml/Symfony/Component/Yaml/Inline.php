@@ -25,7 +25,6 @@ class Inline
 
     private static $exceptionOnInvalidType = false;
     private static $objectSupport = false;
-    private static $objectForMap = false;
 
     /**
      * Converts a YAML string to a PHP array.
@@ -33,18 +32,16 @@ class Inline
      * @param string $value                  A YAML string
      * @param bool   $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
      * @param bool   $objectSupport          true if object support is enabled, false otherwise
-     * @param bool   $objectForMap           true if maps should return a stdClass instead of array()
      * @param array  $references             Mapping of variable names to values
      *
      * @return array A PHP array representing the YAML string
      *
      * @throws ParseException
      */
-    public static function parse($value, $exceptionOnInvalidType = false, $objectSupport = false, $objectForMap = false, $references = array())
+    public static function parse($value, $exceptionOnInvalidType = false, $objectSupport = false, $references = array())
     {
         self::$exceptionOnInvalidType = $exceptionOnInvalidType;
         self::$objectSupport = $objectSupport;
-        self::$objectForMap = $objectForMap;
 
         $value = trim($value);
 
@@ -128,17 +125,8 @@ class Inline
                 if (false !== $locale) {
                     setlocale(LC_NUMERIC, 'C');
                 }
-                if (is_float($value)) {
-                    $repr = (string) $value;
-                    if (is_infinite($value)) {
-                        $repr = str_ireplace('INF', '.Inf', $repr);
-                    } elseif (floor($value) == $value && $repr == $value) {
-                        // Preserve float data type since storing a whole number will result in integer value.
-                        $repr = '!!float '.$repr;
-                    }
-                } else {
-                    $repr = is_string($value) ? "'$value'" : (string) $value;
-                }
+                $repr = is_string($value) ? "'$value'" : (is_infinite($value) ? str_ireplace('INF', '.Inf', strval($value)) : strval($value));
+
                 if (false !== $locale) {
                     setlocale(LC_NUMERIC, $locale);
                 }
@@ -169,9 +157,8 @@ class Inline
     {
         // array
         $keys = array_keys($value);
-        $keysCount = count($keys);
-        if ((1 === $keysCount && '0' == $keys[0])
-            || ($keysCount > 1 && array_reduce($keys, function ($v, $w) { return (int) $v + $w; }, 0) === $keysCount * ($keysCount - 1) / 2)
+        if ((1 == count($keys) && '0' == $keys[0])
+            || (count($keys) > 1 && array_reduce($keys, function ($v, $w) { return (int) $v + $w; }, 0) == count($keys) * (count($keys) - 1) / 2)
         ) {
             $output = array();
             foreach ($value as $val) {
@@ -286,7 +273,7 @@ class Inline
     {
         $output = array();
         $len = strlen($sequence);
-        ++$i;
+        $i += 1;
 
         // [foo, bar, ...]
         while ($i < $len) {
@@ -345,7 +332,7 @@ class Inline
     {
         $output = array();
         $len = strlen($mapping);
-        ++$i;
+        $i += 1;
 
         // {foo: bar, bar:foo, ...}
         while ($i < $len) {
@@ -355,10 +342,6 @@ class Inline
                     ++$i;
                     continue 2;
                 case '}':
-                    if (self::$objectForMap) {
-                        return (object) $output;
-                    }
-
                     return $output;
             }
 
@@ -367,7 +350,6 @@ class Inline
 
             // value
             $done = false;
-
             while ($i < $len) {
                 switch ($mapping[$i]) {
                     case '[':
@@ -467,7 +449,7 @@ class Inline
                     case 0 === strpos($scalar, '!str'):
                         return (string) substr($scalar, 5);
                     case 0 === strpos($scalar, '! '):
-                        return (int) self::parseScalar(substr($scalar, 2));
+                        return intval(self::parseScalar(substr($scalar, 2)));
                     case 0 === strpos($scalar, '!!php/object:'):
                         if (self::$objectSupport) {
                             return unserialize(substr($scalar, 13));
@@ -478,27 +460,25 @@ class Inline
                         }
 
                         return;
-                    case 0 === strpos($scalar, '!!float '):
-                        return (float) substr($scalar, 8);
                     case ctype_digit($scalar):
                         $raw = $scalar;
-                        $cast = (int) $scalar;
+                        $cast = intval($scalar);
 
                         return '0' == $scalar[0] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
                     case '-' === $scalar[0] && ctype_digit(substr($scalar, 1)):
                         $raw = $scalar;
-                        $cast = (int) $scalar;
+                        $cast = intval($scalar);
 
-                        return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw === (string) $cast) ? $cast : $raw);
+                        return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
                     case is_numeric($scalar):
-                        return '0x' === $scalar[0].$scalar[1] ? hexdec($scalar) : (float) $scalar;
+                        return '0x' == $scalar[0].$scalar[1] ? hexdec($scalar) : floatval($scalar);
                     case '.inf' === $scalarLower:
                     case '.nan' === $scalarLower:
                         return -log(0);
                     case '-.inf' === $scalarLower:
                         return log(0);
                     case preg_match('/^(-|\+)?[0-9,]+(\.[0-9]+)?$/', $scalar):
-                        return (float) str_replace(',', '', $scalar);
+                        return floatval(str_replace(',', '', $scalar));
                     case preg_match(self::getTimestampRegex(), $scalar):
                         return strtotime($scalar);
                 }

@@ -54,9 +54,8 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 
         try {
             $l->onKernelException($event2);
-            $this->fail('RuntimeException expected');
-        } catch (\RuntimeException $e) {
-            $this->assertSame('bar', $e->getMessage());
+        } catch (\Exception $e) {
+            $this->assertSame('foo', $e->getMessage());
         }
     }
 
@@ -74,9 +73,8 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 
         try {
             $l->onKernelException($event2);
-            $this->fail('RuntimeException expected');
-        } catch (\RuntimeException $e) {
-            $this->assertSame('bar', $e->getMessage());
+        } catch (\Exception $e) {
+            $this->assertSame('foo', $e->getMessage());
         }
 
         $this->assertEquals(3, $logger->countErrors());
@@ -139,6 +137,6 @@ class TestKernelThatThrowsException implements HttpKernelInterface
 {
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
-        throw new \RuntimeException('bar');
+        throw new \Exception('bar');
     }
 }

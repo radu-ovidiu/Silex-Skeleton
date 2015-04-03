@@ -23,7 +23,7 @@ class FilesystemTest extends FilesystemTestCase
      */
     private $filesystem = null;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
@@ -49,27 +49,6 @@ class FilesystemTest extends FilesystemTestCase
     {
         $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'copy_source_file';
         $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'copy_target_file';
-
-        $this->filesystem->copy($sourceFilePath, $targetFilePath);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
-     */
-    public function testCopyUnreadableFileFails()
-    {
-        // skip test on Windows; PHP can't easily set file as unreadable on Windows
-        if ('\\' === DIRECTORY_SEPARATOR) {
-            $this->markTestSkipped('This test cannot run on Windows.');
-        }
-
-        $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'copy_source_file';
-        $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'copy_target_file';
-
-        file_put_contents($sourceFilePath, 'SOURCE FILE');
-
-        // make sure target cannot be read
-        $this->filesystem->chmod($sourceFilePath, 0222);
 
         $this->filesystem->copy($sourceFilePath, $targetFilePath);
     }
@@ -125,33 +104,6 @@ class FilesystemTest extends FilesystemTestCase
 
         $this->assertFileExists($targetFilePath);
         $this->assertEquals('SOURCE FILE', file_get_contents($targetFilePath));
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Filesystem\Exception\IOException
-     */
-    public function testCopyWithOverrideWithReadOnlyTargetFails()
-    {
-        // skip test on Windows; PHP can't easily set file as unwritable on Windows
-        if ('\\' === DIRECTORY_SEPARATOR) {
-            $this->markTestSkipped('This test cannot run on Windows.');
-        }
-
-        $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'copy_source_file';
-        $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'copy_target_file';
-
-        file_put_contents($sourceFilePath, 'SOURCE FILE');
-        file_put_contents($targetFilePath, 'TARGET FILE');
-
-        // make sure both files have the same modification time
-        $modificationTime = time() - 1000;
-        touch($sourceFilePath, $modificationTime);
-        touch($targetFilePath, $modificationTime);
-
-        // make sure target is read-only
-        $this->filesystem->chmod($targetFilePath, 0444);
-
-        $this->filesystem->copy($sourceFilePath, $targetFilePath, true);
     }
 
     public function testCopyCreatesTargetDirectoryIfItDoesNotExist()
@@ -686,14 +638,11 @@ class FilesystemTest extends FilesystemTestCase
         $file = $this->workspace.DIRECTORY_SEPARATOR.'file';
         $link = $this->workspace.DIRECTORY_SEPARATOR.'link';
 
-        // $file does not exists right now: creating "broken" links is a wanted feature
+        touch($file);
+
         $this->filesystem->symlink($file, $link);
 
         $this->assertTrue(is_link($link));
-
-        // Create the linked file AFTER creating the link
-        touch($file);
-
         $this->assertEquals($file, readlink($link));
     }
 

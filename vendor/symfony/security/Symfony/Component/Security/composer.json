@@ -28,7 +28,6 @@
         "symfony/security-http": "self.version"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "~2.7",
         "symfony/intl": "~2.3",
         "symfony/routing": "~2.2",
         "symfony/translation": "~2.0,>=2.0.5",
@@ -37,7 +36,7 @@
         "doctrine/dbal": "~2.2",
         "psr/log": "~1.0",
         "ircmaxell/password-compat": "~1.0",
-        "symfony/expression-language": "~2.6"
+        "symfony/expression-language": "~2.4"
     },
     "suggest": {
         "symfony/class-loader": "For using the ACL generateSql script",
@@ -55,7 +54,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.6-dev"
+            "dev-master": "2.5-dev"
         }
     }
 }

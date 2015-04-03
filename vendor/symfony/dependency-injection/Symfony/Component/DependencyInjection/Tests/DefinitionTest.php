@@ -27,19 +27,28 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('foo'), $def->getArguments(), '__construct() takes an optional array of arguments as its second argument');
     }
 
-    /**
-     * @covers Symfony\Component\DependencyInjection\Definition::setFactory
-     * @covers Symfony\Component\DependencyInjection\Definition::getFactory
-     */
-    public function testSetGetFactory()
+    public function testSetGetFactoryClass()
     {
         $def = new Definition('stdClass');
+        $this->assertNull($def->getFactoryClass());
+        $this->assertSame($def, $def->setFactoryClass('stdClass2'), "->setFactoryClass() implements a fluent interface.");
+        $this->assertEquals('stdClass2', $def->getFactoryClass(), "->getFactoryClass() returns current class to construct this service.");
+    }
 
-        $this->assertSame($def, $def->setFactory('foo'), '->setFactory() implements a fluent interface');
-        $this->assertEquals('foo', $def->getFactory(), '->getFactory() returns the factory');
+    public function testSetGetFactoryMethod()
+    {
+        $def = new Definition('stdClass');
+        $this->assertNull($def->getFactoryMethod());
+        $this->assertSame($def, $def->setFactoryMethod('foo'), '->setFactoryMethod() implements a fluent interface');
+        $this->assertEquals('foo', $def->getFactoryMethod(), '->getFactoryMethod() returns the factory method name');
+    }
 
-        $def->setFactory('Foo::bar');
-        $this->assertEquals(array('Foo', 'bar'), $def->getFactory(), '->setFactory() converts string static method call to the array');
+    public function testSetGetFactoryService()
+    {
+        $def = new Definition('stdClass');
+        $this->assertNull($def->getFactoryService());
+        $this->assertSame($def, $def->setFactoryService('foo.bar'), "->setFactoryService() implements a fluent interface.");
+        $this->assertEquals('foo.bar', $def->getFactoryService(), "->getFactoryService() returns current service to construct this service.");
     }
 
     /**

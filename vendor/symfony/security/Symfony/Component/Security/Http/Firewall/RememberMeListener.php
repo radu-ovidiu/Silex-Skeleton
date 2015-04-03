@@ -33,7 +33,6 @@ class RememberMeListener implements ListenerInterface
     private $authenticationManager;
     private $logger;
     private $dispatcher;
-    private $catchExceptions = true;
 
     /**
      * Constructor.
@@ -43,16 +42,14 @@ class RememberMeListener implements ListenerInterface
      * @param AuthenticationManagerInterface $authenticationManager
      * @param LoggerInterface                $logger
      * @param EventDispatcherInterface       $dispatcher
-     * @param bool                           $catchExceptions
      */
-    public function __construct(SecurityContextInterface $securityContext, RememberMeServicesInterface $rememberMeServices, AuthenticationManagerInterface $authenticationManager, LoggerInterface $logger = null, EventDispatcherInterface $dispatcher = null, $catchExceptions = true)
+    public function __construct(SecurityContextInterface $securityContext, RememberMeServicesInterface $rememberMeServices, AuthenticationManagerInterface $authenticationManager, LoggerInterface $logger = null, EventDispatcherInterface $dispatcher = null)
     {
         $this->securityContext = $securityContext;
         $this->rememberMeServices = $rememberMeServices;
         $this->authenticationManager = $authenticationManager;
         $this->logger = $logger;
         $this->dispatcher = $dispatcher;
-        $this->catchExceptions = $catchExceptions;
     }
 
     /**
@@ -93,10 +90,6 @@ class RememberMeListener implements ListenerInterface
             }
 
             $this->rememberMeServices->loginFail($request);
-
-            if (!$this->catchExceptions) {
-                throw $failed;
-            }
         }
     }
 }

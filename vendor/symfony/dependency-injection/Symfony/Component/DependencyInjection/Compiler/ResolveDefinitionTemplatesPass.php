@@ -84,7 +84,6 @@ class ResolveDefinitionTemplatesPass implements CompilerPassInterface
         $def->setFactoryClass($parentDef->getFactoryClass());
         $def->setFactoryMethod($parentDef->getFactoryMethod());
         $def->setFactoryService($parentDef->getFactoryService());
-        $def->setFactory($parentDef->getFactory());
         $def->setConfigurator($parentDef->getConfigurator());
         $def->setFile($parentDef->getFile());
         $def->setPublic($parentDef->isPublic());
@@ -103,9 +102,6 @@ class ResolveDefinitionTemplatesPass implements CompilerPassInterface
         }
         if (isset($changes['factory_service'])) {
             $def->setFactoryService($definition->getFactoryService());
-        }
-        if (isset($changes['factory'])) {
-            $def->setFactory($definition->getFactory());
         }
         if (isset($changes['configurator'])) {
             $def->setConfigurator($definition->getConfigurator());

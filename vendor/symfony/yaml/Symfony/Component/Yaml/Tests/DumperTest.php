@@ -95,7 +95,8 @@ EOF;
                     // TODO
                 } else {
                     eval('$expected = '.trim($test['php']).';');
-                    $this->assertSame($expected, $this->parser->parse($this->dumper->dump($expected, 10)), $test['test']);
+
+                    $this->assertEquals($expected, $this->parser->parse($this->dumper->dump($expected, 10)), $test['test']);
                 }
             }
         }

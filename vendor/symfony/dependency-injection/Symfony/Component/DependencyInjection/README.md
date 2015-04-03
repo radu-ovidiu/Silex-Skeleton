@@ -43,7 +43,8 @@ $sc = new ContainerBuilder();
 
 $sc
     ->register('bar', '%bar.class%')
-    ->setFactory(array('%bar.class%', 'getInstance'))
+    ->setFactoryClass('%bar.class%')
+    ->setFactoryMethod('getInstance')
     ->addArgument('Aarrg!!!')
 ;
 $sc->setParameter('bar.class', 'Bar');
@@ -76,5 +77,5 @@ Resources
 You can run the unit tests with the following command:
 
     $ cd path/to/Symfony/Component/DependencyInjection/
-    $ composer install
+    $ composer.phar install
     $ phpunit
