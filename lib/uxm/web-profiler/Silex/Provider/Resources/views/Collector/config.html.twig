@@ -3,7 +3,7 @@
 {% block toolbar %}
 	{# Symfony Logo #}
 	{% set icon %}
-		<a href="https://github.com/radu-ovidiu/Silex-Skeleton" target="_blank" title="Silex App Skeleton and Extended Profiler by Unix-World.org">
+		<a href="https://github.com/radu-ovidiu/Silex-Skeleton" target="_blank" title="Silex App Skeleton with Extended Profiler by Unix-World.org">
 			<img width="27" height="28" alt="Silex" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAaCAQAAADsge97AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQffAx8QLSEQA9CCAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAAtVJREFUOMuF1M2OFFUYxvFfVZ2q6urpYQb8QCIRQyQhshMTowbUiBdgWBujiRfg0p0rb8MbUC/AEFeobFTGwCRqFIhEBHQYpunp7vo45aILXBnf5TnvP0/O+zzvSV7pSSQSmVQqk0q86h23zR2QuSQxds1Fraiz8LEQkA5QJgiC0ot2jV2Ue8bMXLT0hF2dTpQKmUQqkwlyuVyh8KOZyimXTKT2dP6Wmai1OqkQJIJsAEZKhQ0LVxWC0g2dHWSWJpbqFfZQp1CqVCrBGZlv7WtEc1O9DGsKpblOJoRHOmOViZHjDrvnpJkHpn7QIXrSpsxSWGG5Qq4ytmZizaZj5paes6+2bSZRWLrpNkaOawVp/ghat27DAVGiM7fpjs+1gkKlV2vcE02ElVqpMjFxwERlJle44ldfO++yN32pFC1RmHtMkAaF0aC3Zmxpas+eaNvYB0477xAqiV7rhkYQgkKhMlIZydyVC5a+F2x4z8h3cplWppWamT7EysGxset2FTI/uW+isC7XayxEQatHsjJgpVcojeyaqXXuoxdFjajRarSIgiARVjnM5YLcHez70wOFXtSAVqvWiDILrUxY5T4dclmL2iG6q81Yqa4i3JlYU0sEHi5OgkbuvntD++qMXqfRafXOKHUCPcNldMQNvblUP2CdWgeCxI5fnJVIe71OpxU1TvlDo1FrLC3MNVKlkVImM3LdFtIoqpWOWeg85QW1OKCJIJVqzcwtLZXOOiNKO52TNm277KroDUfQaQV0okY9PGHsZWfVorD0mkriG1NbfnbOu476DKm5zGpkvZETXnLCnn2dZN5fsO8LlUPumDrtI8GW96Uiwx+z4S0f+rfCBV/53UGHpa5Z2nHXwtzzbqk0UpWnPeuc30yUQyzCUdumbroi6lHbsOmgT/ylHea4bs1YIUgHL5O+3/KpWzI87nVvDxb/d/USSezpLCQShTBk/P/qHwsxH4If92/OAAAAAElFTkSuQmCC" />
 			<span>
 				{{ collector.applicationname }}
@@ -13,13 +13,13 @@
 	{% set text %}
 		{% if collector.applicationname %}
 			<div class="sf-toolbar-info-piece">
-				<div class="sf-toolbar-status sf-toolbar-status-green" style="width:92%; padding:8px; font-size:15px;">{{ collector.applicationname }} Framework <b>{{ collector.applicationversion }}</b></div>
+				<div class="sf-toolbar-status sf-toolbar-status-green" style="width:92%; padding:8px; font-size:15px;"><b>{{ collector.applicationname }}</b> Framework <b>v.{{ collector.applicationversion }}</b></div>
 				<br>
 				<a href="http://silex.sensiolabs.org/documentation" target="_blank">Silex Documentation</a>
 			</div>
 		{% endif %}
 		<div class="sf-toolbar-info-piece">
-			<span style="font-size:13px;">with Symfony Framework (base) <b>{{ collector.symfonyversion }}</b></span>
+			<span style="font-size:13px;">with Symfony {{ collector.symfonyversion }} (base components)</span>
 			<br>
 			<a href="http://symfony.com/doc/{{ collector.symfonyversion }}" target="_blank">Symfony Documentation</a>
 		</div>
