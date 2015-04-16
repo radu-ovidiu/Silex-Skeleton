@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3581f8c3c1e8978317284adcadc735ff",
+    "hash": "6c92763cba681fe17a252c1ef181e471",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2112,7 +2112,7 @@
     "stability-flags": {
         "unix-world/uxm-utils-silex": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
