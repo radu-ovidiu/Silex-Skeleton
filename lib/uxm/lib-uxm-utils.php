@@ -1,12 +1,13 @@
 <?php
 // Utils Library
-// author: Radu Ilies
-// 2015-02-21
+// author: Radu Ovidiu I.
+// 2015-02-21 r.150416
 // License: BSD
 
 namespace UXM;
 
-class Utils {
+
+final class Utils {
 
 	// ::
 
@@ -70,4 +71,6 @@ class Utils {
 
 } //END CLASS
 
+
+//end of php code
 ?>
