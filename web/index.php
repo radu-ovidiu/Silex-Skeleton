@@ -1,6 +1,7 @@
 <?php
 
 //==
+require_once(__DIR__.'/../vendor/uxm-utils-silex/autoload.php');
 require_once(__DIR__.'/../vendor/autoload.php');
 //==
 
@@ -11,10 +12,7 @@ define('SILEX_RUNTIME_READY', true);
 //==
 require(__DIR__.'/../etc/config.php');
 //==
-require(__DIR__.'/../lib/uxm/lib-uxm-utils.php');
-if(@is_array($configs['dbs.options'])) {
-	require(__DIR__.'/../lib/uxm/lib-uxm-doctrine-dbal-handler.php');
-} //end if
+
 //==
 require(__DIR__.'/../middlewares/autoload.php');
 //==
@@ -117,8 +115,6 @@ if(@is_array($configs['mongodb.options'])) {
 
 //-- Web Profiler
 if(SMART_APP_DEBUG === true) {
-	$app['twig.loader.filesystem']->addPath(__DIR__.'/../lib/uxm/web-profiler/Silex/Provider/Resources/views', 'UxmWebProfiler');
-	require(__DIR__.'/../lib/uxm/web-profiler/Silex/Provider/WebProfilerServiceProvider.php');
 	$app->register(new \UXM\Silex\WebProfiler\WebProfilerServiceProvider(), array(
 		'profiler.cache_dir' => __DIR__.'/../tmp/profiler',
 		'web_profiler.debug_toolbar.enable' => true,
