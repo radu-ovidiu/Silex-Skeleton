@@ -1,6 +1,6 @@
 {
-    "name": "unix-world/Silex-Skeleton",
-    "description": "A PHP framework App Skeleton based on Silex",
+    "name": "unix-world/silex-framework-app",
+    "description": "A PHP framework App (skeleton) based on Silex",
     "keywords": ["microframework", "framework", "app skeleton"],
     "homepage": "http://www.unix-world.org",
     "license": "MIT",
