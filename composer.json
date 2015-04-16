@@ -1,4 +1,15 @@
 {
+    "name": "unix-world/Silex-Skeleton",
+    "description": "A PHP framework App Skeleton based on Silex",
+    "keywords": ["microframework", "framework", "app skeleton"],
+    "homepage": "http://www.unix-world.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Radu Ovidiu I.",
+            "email": "iradu@unix-world.org"
+        }
+    ],
     "require": {
         "silex/silex": "1.2.3",
         "psr/log": "1.0.0",
