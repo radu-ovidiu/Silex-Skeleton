@@ -17,32 +17,62 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Doctrine\Common\Collections;
+namespace Doctrine\Common\Cache;
 
 /**
- * Interface for collections that allow efficient filtering with an expression API.
+ * Void cache driver. The cache could be of use in tests where you don`t need to cache anything.
  *
- * Goal of this interface is a backend independent method to fetch elements
- * from a collections. {@link Expression} is crafted in a way that you can
- * implement queries from both in-memory and database-backed collections.
- *
- * For database backed collections this allows very efficient access by
- * utilizing the query APIs, for example SQL in the ORM. Applications using
- * this API can implement efficient database access without having to ask the
- * EntityManager or Repositories.
- *
- * @author Benjamin Eberlei <kontakt@beberlei.de>
- * @since  2.3
+ * @link   www.doctrine-project.org
+ * @since  1.5
+ * @author Kotlyar Maksim <kotlyar.maksim@gmail.com>
  */
-interface Selectable
+class VoidCache extends CacheProvider
 {
     /**
-     * Selects all elements from a selectable that match the expression and
-     * returns a new collection containing these elements.
-     *
-     * @param Criteria $criteria
-     *
-     * @return Collection
+     * {@inheritDoc}
      */
-    public function matching(Criteria $criteria);
+    protected function doFetch($id)
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function doContains($id)
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function doSave($id, $data, $lifeTime = 0)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function doDelete($id)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function doFlush()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function doGetStats()
+    {
+        return;
+    }
 }
