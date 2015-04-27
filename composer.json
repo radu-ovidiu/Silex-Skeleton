@@ -12,7 +12,7 @@
     ],
     "prefer-stable": true,
     "require": {
-        "silex/silex": "1.2.3",
+        "silex/silex": "1.2.4",
         "psr/log": "1.0.0",
         "pimple/pimple": "1.1.1",
         "symfony/dependency-injection": "2.5.11",
