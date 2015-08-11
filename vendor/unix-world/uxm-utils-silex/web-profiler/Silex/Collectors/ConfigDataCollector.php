@@ -42,7 +42,7 @@ class ConfigDataCollector extends \Symfony\Component\HttpKernel\DataCollector\Da
 
 		$this->data = array(
 			'app_name' => 'Silex.App',
-			'app_version' => '1.2.4.smart', //$this->version,
+			'app_version' => '1.2.5.smart', //$this->version,
 			'token' => $response->headers->get('X-Debug-Token'),
 			'symfony_version' => \Symfony\Component\HttpKernel\Kernel::VERSION,
 			'name' => isset($this->kernel) ? $this->kernel->getName() : 'n/a',
